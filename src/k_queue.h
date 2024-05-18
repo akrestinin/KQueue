@@ -18,7 +18,7 @@
 
 typedef struct KQueue KQueue_t;
 
-typedef KQueue_t* const KQueue_Handle_t;
+typedef KQueue_t* KQueue_Handle_t;
 
 KQueue_Handle_t KQueue_Create(size_t itemSize, uint32_t queueLength);
 
