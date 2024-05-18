@@ -77,11 +77,12 @@ bool KQueue_IsEmpty(KQueue_Handle_t self)
 {
     assert(self != NULL);
 
-    return self->ReadFrom_p == self->WriteTo_p;
+    return self->ItemsNum == 0;
 }
 
 void KQueue_Destroy(KQueue_Handle_t self)
 {
     assert(self != NULL);
+    free(self->Begin_p);
     free(self);
 }
