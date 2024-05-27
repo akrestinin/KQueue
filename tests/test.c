@@ -5,8 +5,8 @@
 #include <time.h>
 #include "k_queue.h"
 
-#define TEST_CYCLES                 100
-#define QUEUE_LENGTH                10
+#define TEST_CYCLES         100
+#define QUEUE_LENGTH        10
 
 typedef struct TestItem
 {
@@ -19,50 +19,42 @@ typedef struct TestItem
 #define STYLE_SUCCESS(s)    ("\033[32m" s "\033[0m")
 #define STYLE_ERROR(s)      ("\033[31m" s "\033[0m")
 
-static void Print(const char* const pStr, ...)
-{
-    va_list args;
-    va_start(args, pStr);
-    vprintf(pStr, args);
-    va_end(args);
-}
-
 static void PrintResult(bool result)
 {
     if(result)
-        Print(STYLE_SUCCESS("SUCCESS\r\n"));
+        printf(STYLE_SUCCESS("SUCCESS\r\n"));
     else
-        Print(STYLE_ERROR("FAILED\r\n"));
+        printf(STYLE_ERROR("FAILED\r\n"));
 }
 
 int main(void)
 {
-    Print(STYLE_SYS("Starting KQueue testing procedure...\r\n"));
+    printf(STYLE_SYS("Starting KQueue testing procedure...\r\n"));
 
     srand(time(NULL));
 
-    Print(STYLE_SYS("---------------------------------------------------\r\n"));
+    printf(STYLE_SYS("---------------------------------------------------\r\n"));
 
-    Print(STYLE_SYS("Queue creation:\r\n"));
+    printf(STYLE_SYS("Queue creation:\r\n"));
 
-    Print("\tTEST 1: Crate too big ");
+    printf("\tTEST 1: Crate too big ");
     PrintResult(KQueue_Create(sizeof(TestItem_t), ~0UL) == NULL);
 
-    Print("\tTEST 2: Create normal ");
+    printf("\tTEST 2: Create normal ");
     KQueue_Handle_t qHandle = KQueue_Create(sizeof(TestItem_t), QUEUE_LENGTH);
     PrintResult(qHandle != NULL);
 
-    Print("\tTEST 3: Is empty ");
+    printf("\tTEST 3: Is empty ");
     PrintResult(KQueue_IsEmpty(qHandle));
 
-    Print("\tTEST 4: No items ");
+    printf("\tTEST 4: No items ");
     PrintResult(KQueue_ItemsNum(qHandle) == 0);
 
-    Print(STYLE_SYS("---------------------------------------------------\r\n"));
+    printf(STYLE_SYS("---------------------------------------------------\r\n"));
 
-    Print(STYLE_SYS("Queue push items:\r\n"));
+    printf(STYLE_SYS("Queue push items:\r\n"));
 
-    Print("\tTEST 1: Pushing items \r\n");
+    printf("\tTEST 1: Pushing items \r\n");
     TestItem_t itemsArr[QUEUE_LENGTH];
     memset(itemsArr, 0, sizeof(TestItem_t) * QUEUE_LENGTH);
     for(int i = 0; i < QUEUE_LENGTH; i++)
@@ -74,12 +66,12 @@ int main(void)
         };
 
         memcpy(&itemsArr[i], &item, sizeof(TestItem_t));
-        Print("\t\tPush item [%d]: First: %i\tSecond: %d\tThird: %u\t",
+        printf("\t\tPush item [%d]: First: %i\tSecond: %d\tThird: %u\t",
                 i, item.First, item.Second, item.Third);
         PrintResult(KQueue_Push(qHandle, &item));
     }
 
-    Print("\tTEST 2: Push too much ");
+    printf("\tTEST 2: Push too much ");
     TestItem_t badItem = {
         .First = rand(),
         .Second = rand(),
@@ -87,43 +79,43 @@ int main(void)
     };
     PrintResult(KQueue_Push(qHandle, &badItem) == false);
 
-    Print("\tTEST 3: Isn't empty ");
+    printf("\tTEST 3: Isn't empty ");
     PrintResult(KQueue_IsEmpty(qHandle) == false);
 
-    Print("\tTEST 4: Full of items ");
+    printf("\tTEST 4: Full of items ");
     PrintResult(KQueue_ItemsNum(qHandle) == QUEUE_LENGTH);
 
-    Print(STYLE_SYS("---------------------------------------------------\r\n"));
+    printf(STYLE_SYS("---------------------------------------------------\r\n"));
 
-    Print(STYLE_SYS("Queue pop items:\r\n"));
+    printf(STYLE_SYS("Queue pop items:\r\n"));
 
-    Print("\tTEST 1: Poping items \r\n");
+    printf("\tTEST 1: Poping items \r\n");
     for(int i = 0; i < QUEUE_LENGTH; i++)
     {
         TestItem_t item;
         memset(&item, 0, sizeof(TestItem_t));
         bool result = KQueue_Pop(qHandle, &item);
-        Print("\t\tPoped item [%d]: First: %i\tSecond: %d\tThird: %u\t",
+        printf("\t\tPoped item [%d]: First: %i\tSecond: %d\tThird: %u\t",
                 i, item.First, item.Second, item.Third);
         PrintResult(result);
-        Print("\t\tIs equal: ");
+        printf("\t\tIs equal: ");
         PrintResult(memcmp(&itemsArr[i], &item, sizeof(TestItem_t)) == 0);
     }
 
-    Print("\tTEST 2: Pop too much ");
+    printf("\tTEST 2: Pop too much ");
     PrintResult(KQueue_Pop(qHandle, &badItem) == false);
 
-    Print("\tTEST 3: Is empty ");
+    printf("\tTEST 3: Is empty ");
     PrintResult(KQueue_IsEmpty(qHandle));
 
-    Print("\tTEST 4: No items ");
+    printf("\tTEST 4: No items ");
     PrintResult(KQueue_ItemsNum(qHandle) == 0);
 
-    Print(STYLE_SYS("---------------------------------------------------\r\n"));
+    printf(STYLE_SYS("---------------------------------------------------\r\n"));
 
-    Print(STYLE_SYS("Queue random operations check:\r\n"));
+    printf(STYLE_SYS("Queue random operations check:\r\n"));
 
-    Print("\tTEST 1: Random operations [%d] ", TEST_CYCLES);
+    printf("\tTEST 1: Random operations [%d] ", TEST_CYCLES);
 
     memset(&itemsArr[0], 0, sizeof(TestItem_t) * QUEUE_LENGTH);
     uint32_t num = 0;
@@ -204,11 +196,11 @@ int main(void)
 
     PrintResult(true);
 
-    Print(STYLE_SYS("---------------------------------------------------\r\n"));
+    printf(STYLE_SYS("---------------------------------------------------\r\n"));
 
     KQueue_Destroy(qHandle);
 
-    Print(STYLE_SYS("KQueue testing procedure completed!\r\n"));
+    printf(STYLE_SYS("KQueue testing procedure completed!\r\n"));
 
     return 0;
 }
