@@ -33,7 +33,7 @@ int main(void)
 
     srand(time(NULL));
 
-    printf(STYLE_SYS("---------------------------------------------------\r\n"));
+    printf(STYLE_SYS("--------------------------------------------------\r\n"));
 
     printf(STYLE_SYS("Queue creation:\r\n"));
 
@@ -50,7 +50,7 @@ int main(void)
     printf("\tTEST 4: No items ");
     PrintResult(KQueue_ItemsNum(qHandle) == 0);
 
-    printf(STYLE_SYS("---------------------------------------------------\r\n"));
+    printf(STYLE_SYS("--------------------------------------------------\r\n"));
 
     printf(STYLE_SYS("Queue push items:\r\n"));
 
@@ -85,7 +85,7 @@ int main(void)
     printf("\tTEST 4: Full of items ");
     PrintResult(KQueue_ItemsNum(qHandle) == QUEUE_LENGTH);
 
-    printf(STYLE_SYS("---------------------------------------------------\r\n"));
+    printf(STYLE_SYS("--------------------------------------------------\r\n"));
 
     printf(STYLE_SYS("Queue pop items:\r\n"));
 
@@ -111,7 +111,7 @@ int main(void)
     printf("\tTEST 4: No items ");
     PrintResult(KQueue_ItemsNum(qHandle) == 0);
 
-    printf(STYLE_SYS("---------------------------------------------------\r\n"));
+    printf(STYLE_SYS("--------------------------------------------------\r\n"));
 
     printf(STYLE_SYS("Queue random operations check:\r\n"));
 
@@ -196,7 +196,7 @@ int main(void)
 
     PrintResult(true);
 
-    printf(STYLE_SYS("---------------------------------------------------\r\n"));
+    printf(STYLE_SYS("--------------------------------------------------\r\n"));
 
     KQueue_Destroy(qHandle);
 
