@@ -1,31 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdarg.h>
 #include <time.h>
 #include "k_queue.h"
 
 #define TEST_CYCLES                 100
 #define QUEUE_LENGTH                10
-
-#define PRINT(_f_, ...)             printf((_f_), ##__VA_ARGS__)
-
-#define PRINT_SYS(_f_, ...)         do { \
-                                        PRINT("\033[36m"); \
-                                        PRINT((_f_), ##__VA_ARGS__); \
-                                        PRINT("\033[0m"); \
-                                    } while(0)
-
-#define PRINT_SUCCESS(_f_, ...)     do { \
-                                        PRINT("\033[32m"); \
-                                        PRINT((_f_), ##__VA_ARGS__); \
-                                        PRINT("\033[0m"); \
-                                    } while(0)
-
-#define PRINT_ERROR(_f_, ...)       do { \
-                                        PRINT("\033[31m"); \
-                                        PRINT((_f_), ##__VA_ARGS__); \
-                                        PRINT("\033[0m"); \
-                                    } while(0)
 
 typedef struct TestItem
 {
@@ -34,43 +15,56 @@ typedef struct TestItem
     int32_t Third;
 } TestItem_t;
 
+#define STYLE_SYS(s)        ("\033[36m" s "\033[0m")
+#define STYLE_SUCCESS(s)    ("\033[32m" s "\033[0m")
+#define STYLE_ERROR(s)      ("\033[31m" s "\033[0m")
+
+static void Print(const char* const pStr, ...)
+{
+    va_list args;
+    va_start(args, pStr);
+    vprintf(pStr, args);
+    va_end(args);
+}
+
 static void PrintResult(bool result)
 {
     if(result)
-        PRINT_SUCCESS("SUCCESS\r\n");
+        Print(STYLE_SUCCESS("SUCCESS\r\n"));
     else
-        PRINT_ERROR("FAILED\r\n");
+        Print(STYLE_ERROR("FAILED\r\n"));
 }
 
 int main(void)
 {
-    PRINT_SYS("Starting KQueue testing procedure...\r\n");
+    Print(STYLE_SYS("Starting KQueue testing procedure...\r\n"));
 
     srand(time(NULL));
 
-    PRINT_SYS("----------------------------------------------------------\r\n");
+    Print(STYLE_SYS("---------------------------------------------------\r\n"));
 
-    PRINT_SYS("Queue creation:\r\n");
+    Print(STYLE_SYS("Queue creation:\r\n"));
 
-    PRINT("\tTEST 1: Crate too big ");
+    Print("\tTEST 1: Crate too big ");
     PrintResult(KQueue_Create(sizeof(TestItem_t), ~0UL) == NULL);
 
-    PRINT("\tTEST 2: Create normal ");
+    Print("\tTEST 2: Create normal ");
     KQueue_Handle_t qHandle = KQueue_Create(sizeof(TestItem_t), QUEUE_LENGTH);
     PrintResult(qHandle != NULL);
 
-    PRINT("\tTEST 3: Is empty ");
+    Print("\tTEST 3: Is empty ");
     PrintResult(KQueue_IsEmpty(qHandle));
 
-    PRINT("\tTEST 4: No items ");
+    Print("\tTEST 4: No items ");
     PrintResult(KQueue_ItemsNum(qHandle) == 0);
 
-    PRINT_SYS("----------------------------------------------------------\r\n");
+    Print(STYLE_SYS("---------------------------------------------------\r\n"));
 
-    PRINT_SYS("Queue push items:\r\n");
+    Print(STYLE_SYS("Queue push items:\r\n"));
 
-    PRINT("\tTEST 1: Pushing items \r\n");
-    TestItem_t itemsArr[QUEUE_LENGTH] = {};
+    Print("\tTEST 1: Pushing items \r\n");
+    TestItem_t itemsArr[QUEUE_LENGTH];
+    memset(itemsArr, 0, sizeof(TestItem_t) * QUEUE_LENGTH);
     for(int i = 0; i < QUEUE_LENGTH; i++)
     {
         TestItem_t item = {
@@ -80,12 +74,12 @@ int main(void)
         };
 
         memcpy(&itemsArr[i], &item, sizeof(TestItem_t));
-        PRINT("\t\tPush item [%d]: First: %i\tSecond: %d\tThird: %u\t",
+        Print("\t\tPush item [%d]: First: %i\tSecond: %d\tThird: %u\t",
                 i, item.First, item.Second, item.Third);
         PrintResult(KQueue_Push(qHandle, &item));
     }
 
-    PRINT("\tTEST 2: Push too much ");
+    Print("\tTEST 2: Push too much ");
     TestItem_t badItem = {
         .First = rand(),
         .Second = rand(),
@@ -93,43 +87,43 @@ int main(void)
     };
     PrintResult(KQueue_Push(qHandle, &badItem) == false);
 
-    PRINT("\tTEST 3: Isn't empty ");
+    Print("\tTEST 3: Isn't empty ");
     PrintResult(KQueue_IsEmpty(qHandle) == false);
 
-    PRINT("\tTEST 4: Full of items ");
+    Print("\tTEST 4: Full of items ");
     PrintResult(KQueue_ItemsNum(qHandle) == QUEUE_LENGTH);
 
-    PRINT_SYS("----------------------------------------------------------\r\n");
+    Print(STYLE_SYS("---------------------------------------------------\r\n"));
 
-    PRINT_SYS("Queue pop items:\r\n");
+    Print(STYLE_SYS("Queue pop items:\r\n"));
 
-    PRINT("\tTEST 1: Poping items \r\n");
+    Print("\tTEST 1: Poping items \r\n");
     for(int i = 0; i < QUEUE_LENGTH; i++)
     {
         TestItem_t item;
         memset(&item, 0, sizeof(TestItem_t));
         bool result = KQueue_Pop(qHandle, &item);
-        PRINT("\t\tPoped item [%d]: First: %i\tSecond: %d\tThird: %u\t",
+        Print("\t\tPoped item [%d]: First: %i\tSecond: %d\tThird: %u\t",
                 i, item.First, item.Second, item.Third);
         PrintResult(result);
-        PRINT("\t\tIs equal: ");
+        Print("\t\tIs equal: ");
         PrintResult(memcmp(&itemsArr[i], &item, sizeof(TestItem_t)) == 0);
     }
 
-    PRINT("\tTEST 2: Pop too much ");
+    Print("\tTEST 2: Pop too much ");
     PrintResult(KQueue_Pop(qHandle, &badItem) == false);
 
-    PRINT("\tTEST 3: Is empty ");
+    Print("\tTEST 3: Is empty ");
     PrintResult(KQueue_IsEmpty(qHandle));
 
-    PRINT("\tTEST 4: No items ");
+    Print("\tTEST 4: No items ");
     PrintResult(KQueue_ItemsNum(qHandle) == 0);
 
-    PRINT_SYS("----------------------------------------------------------\r\n");
+    Print(STYLE_SYS("---------------------------------------------------\r\n"));
 
-    PRINT_SYS("Queue random operations check:\r\n");
+    Print(STYLE_SYS("Queue random operations check:\r\n"));
 
-    PRINT("\tTEST 1: Random operations [%d] ", TEST_CYCLES);
+    Print("\tTEST 1: Random operations [%d] ", TEST_CYCLES);
 
     memset(&itemsArr[0], 0, sizeof(TestItem_t) * QUEUE_LENGTH);
     uint32_t num = 0;
@@ -210,11 +204,11 @@ int main(void)
 
     PrintResult(true);
 
-    PRINT_SYS("----------------------------------------------------------\r\n");
+    Print(STYLE_SYS("---------------------------------------------------\r\n"));
 
     KQueue_Destroy(qHandle);
 
-    PRINT_SYS("KQueue testing procedure completed!\r\n");
+    Print(STYLE_SYS("KQueue testing procedure completed!\r\n"));
 
     return 0;
 }

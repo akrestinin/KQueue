@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.29)
 project(k_queue)
 enable_language(C)
 
-set(C_STANDARD          C99)
+set(C_STANDARD          C11)
 set(PROJ_PATH           ${CMAKE_CURRENT_SOURCE_DIR})
 set(EXECUTABLE          ${CMAKE_PROJECT_NAME})
 
