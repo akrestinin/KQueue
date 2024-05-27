@@ -8,16 +8,16 @@
 #define TEST_CYCLES         100
 #define QUEUE_LENGTH        10
 
+#define STYLE_SYS(s)        ("\033[36m" s "\033[0m")
+#define STYLE_SUCCESS(s)    ("\033[32m" s "\033[0m")
+#define STYLE_ERROR(s)      ("\033[31m" s "\033[0m")
+
 typedef struct TestItem
 {
     int32_t First;
     int32_t Second;
     int32_t Third;
 } TestItem_t;
-
-#define STYLE_SYS(s)        ("\033[36m" s "\033[0m")
-#define STYLE_SUCCESS(s)    ("\033[32m" s "\033[0m")
-#define STYLE_ERROR(s)      ("\033[31m" s "\033[0m")
 
 static void PrintResult(bool result)
 {

@@ -20,7 +20,21 @@ typedef struct KQueue KQueue_t;
 
 typedef KQueue_t* KQueue_Handle_t;
 
+typedef struct
+{
+    uint32_t Dummy0;
+    size_t Dummy1;
+    uint32_t Dummy2;
+    void* Dummy3;
+    void* Dummy4;
+    void* Dummy5;
+    void* Dummy6;
+} KQueue_Static_t;
+
 KQueue_Handle_t KQueue_Create(size_t itemSize, uint32_t queueLength);
+
+KQueue_Handle_t KQueue_CreateStatic(KQueue_Static_t* pQueueStorage,
+        int8_t* pItemsStorage, size_t itemSize, uint32_t queueLength);
 
 bool KQueue_Push(KQueue_Handle_t self, void* pItem);
 

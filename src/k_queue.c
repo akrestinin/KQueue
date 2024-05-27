@@ -32,6 +32,26 @@ KQueue_Handle_t KQueue_Create(size_t itemSize, uint32_t queueLength)
     return pQueue;
 }
 
+KQueue_Handle_t KQueue_CreateStatic(KQueue_Static_t* pQueueStorage,
+        int8_t* pItemsStorage, size_t itemSize, uint32_t queueLength)
+{
+    assert(pQueueStorage != NULL);
+    assert(pItemsStorage != NULL);
+    assert(sizeof(KQueue_t) == sizeof(KQueue_Static_t));
+
+    KQueue_t* pNewQueue = (KQueue_t*)pQueueStorage;
+    memset(pItemsStorage, 0, itemSize * queueLength);
+    pNewQueue->Length = queueLength;
+    pNewQueue->ItemSize = itemSize;
+    pNewQueue->ItemsNum = 0;
+    pNewQueue->Begin_p = pItemsStorage;
+    pNewQueue->End_p = pItemsStorage + (itemSize * queueLength);
+    pNewQueue->ReadFrom_p = pItemsStorage;
+    pNewQueue->WriteTo_p = pItemsStorage;
+
+    return (KQueue_Handle_t)pNewQueue;
+}
+
 bool KQueue_Push(KQueue_Handle_t self, void* pItem)
 {
     assert(self != NULL);
