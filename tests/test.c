@@ -19,7 +19,7 @@ typedef struct TestItem {
 } TestItem_t;
 
 static void PrintResult(bool result) {
-    if(result)
+    if (result)
         printf(STYLE_SUCCESS("SUCCESS\r\n"));
     else
         printf(STYLE_ERROR("FAILED\r\n"));
@@ -54,12 +54,15 @@ int main(void) {
     printf("\tTEST 1: Pushing items \r\n");
     TestItem_t itemsArr[QUEUE_LENGTH];
     memset(itemsArr, 0, sizeof(TestItem_t) * QUEUE_LENGTH);
-    for(int i = 0; i < QUEUE_LENGTH; i++) {
+    for (int i = 0; i < QUEUE_LENGTH; i++) {
         TestItem_t item = {.First = rand(), .Second = rand(), .Third = rand()};
 
         memcpy(&itemsArr[i], &item, sizeof(TestItem_t));
-        printf("\t\tPush item [%d]: First: %i\tSecond: %d\tThird: %u\t", i,
-               item.First, item.Second, item.Third);
+        printf("\t\tPush item [%d]: First: %i\tSecond: %d\tThird: %u\t",
+               i,
+               item.First,
+               item.Second,
+               item.Third);
         PrintResult(KQueue_Push(qHandle, &item));
     }
 
@@ -78,12 +81,15 @@ int main(void) {
     printf(STYLE_SYS("Queue pop items:\r\n"));
 
     printf("\tTEST 1: Poping items \r\n");
-    for(int i = 0; i < QUEUE_LENGTH; i++) {
+    for (int i = 0; i < QUEUE_LENGTH; i++) {
         TestItem_t item;
         memset(&item, 0, sizeof(TestItem_t));
         bool result = KQueue_Pop(qHandle, &item);
-        printf("\t\tPoped item [%d]: First: %i\tSecond: %d\tThird: %u\t", i,
-               item.First, item.Second, item.Third);
+        printf("\t\tPoped item [%d]: First: %i\tSecond: %d\tThird: %u\t",
+               i,
+               item.First,
+               item.Second,
+               item.Third);
         PrintResult(result);
         printf("\t\tIs equal: ");
         PrintResult(memcmp(&itemsArr[i], &item, sizeof(TestItem_t)) == 0);
@@ -107,28 +113,28 @@ int main(void) {
     memset(&itemsArr[0], 0, sizeof(TestItem_t) * QUEUE_LENGTH);
     uint32_t   num = 0;
     TestItem_t itemBuff;
-    for(uint32_t i = 0; i < TEST_CYCLES; i++) {
+    for (uint32_t i = 0; i < TEST_CYCLES; i++) {
         bool PopOrPush = rand() > 0 ? true : false;
-        if(PopOrPush) {
-            itemBuff.First = rand();
+        if (PopOrPush) {
+            itemBuff.First  = rand();
             itemBuff.Second = rand();
-            itemBuff.Third = rand();
-            bool result = KQueue_Push(qHandle, &itemBuff);
-            if((num >= QUEUE_LENGTH && result == true) ||
-               (num < QUEUE_LENGTH && result == false)) {
+            itemBuff.Third  = rand();
+            bool result     = KQueue_Push(qHandle, &itemBuff);
+            if ((num >= QUEUE_LENGTH && result == true) ||
+                (num < QUEUE_LENGTH && result == false)) {
                 PrintResult(false);
                 return 1;
             }
 
-            if(num < QUEUE_LENGTH) {
+            if (num < QUEUE_LENGTH) {
                 memcpy(&itemsArr[num], &itemBuff, sizeof(TestItem_t));
                 num++;
-                if(KQueue_ItemsNum(qHandle) != num) {
+                if (KQueue_ItemsNum(qHandle) != num) {
                     PrintResult(false);
                     return 1;
                 }
             } else {
-                if(KQueue_ItemsNum(qHandle) != num) {
+                if (KQueue_ItemsNum(qHandle) != num) {
                     PrintResult(false);
                     return 1;
                 }
@@ -136,26 +142,27 @@ int main(void) {
         } else {
             memset(&itemBuff, 0, sizeof(TestItem_t));
             bool result = KQueue_Pop(qHandle, &itemBuff);
-            if((num == 0 && result == true) || (num != 0 && result == false)) {
+            if ((num == 0 && result == true) || (num != 0 && result == false)) {
                 PrintResult(false);
                 return 1;
             }
 
-            if(num == 0) {
-                if(KQueue_ItemsNum(qHandle) != 0 ||
-                   KQueue_IsEmpty(qHandle) != true) {
+            if (num == 0) {
+                if (KQueue_ItemsNum(qHandle) != 0 ||
+                    KQueue_IsEmpty(qHandle) != true) {
                     PrintResult(false);
                     return 1;
                 }
             } else {
-                if(memcmp(&itemsArr[num], &itemBuff, sizeof(TestItem_t)) != 0) {
+                if (memcmp(&itemsArr[num], &itemBuff, sizeof(TestItem_t)) !=
+                    0) {
                     PrintResult(false);
                     return 1;
                 }
 
                 memset(&itemsArr[num], 0, sizeof(TestItem_t));
                 num--;
-                if(KQueue_ItemsNum(qHandle) != num) {
+                if (KQueue_ItemsNum(qHandle) != num) {
                     PrintResult(false);
                     return 1;
                 }
