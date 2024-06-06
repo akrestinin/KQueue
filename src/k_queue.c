@@ -1,23 +1,21 @@
 #include "k_queue.h"
+#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
 
-typedef struct KQueue
-{
+typedef struct KQueue {
     uint32_t Length;
-    size_t ItemSize;
+    size_t   ItemSize;
     uint32_t ItemsNum;
-    int8_t* Begin_p;
-    int8_t* End_p;
-    int8_t* ReadFrom_p;
-    int8_t* WriteTo_p;
+    int8_t*  Begin_p;
+    int8_t*  End_p;
+    int8_t*  ReadFrom_p;
+    int8_t*  WriteTo_p;
 } KQueue_t;
 
-KQueue_Handle_t KQueue_Create(size_t itemSize, uint32_t queueLength)
-{
+KQueue_Handle_t KQueue_Create(size_t itemSize, uint32_t queueLength) {
     KQueue_t* pQueue = malloc(sizeof(KQueue_t));
-    void* pArr = malloc(itemSize * queueLength);
+    void*     pArr = malloc(itemSize * queueLength);
     if(pQueue == NULL || pArr == NULL)
         return NULL;
 
@@ -33,8 +31,8 @@ KQueue_Handle_t KQueue_Create(size_t itemSize, uint32_t queueLength)
 }
 
 KQueue_Handle_t KQueue_CreateStatic(KQueue_Static_t* pQueueStorage,
-        int8_t* pItemsStorage, size_t itemSize, uint32_t queueLength)
-{
+                                    int8_t* pItemsStorage, size_t itemSize,
+                                    uint32_t queueLength) {
     assert(pQueueStorage != NULL);
     assert(pItemsStorage != NULL);
     assert(sizeof(KQueue_t) == sizeof(KQueue_Static_t));
@@ -52,8 +50,7 @@ KQueue_Handle_t KQueue_CreateStatic(KQueue_Static_t* pQueueStorage,
     return (KQueue_Handle_t)pNewQueue;
 }
 
-bool KQueue_Push(KQueue_Handle_t self, void* pItem)
-{
+bool KQueue_Push(KQueue_Handle_t self, void* pItem) {
     assert(self != NULL);
     assert(pItem != NULL);
 
@@ -69,8 +66,7 @@ bool KQueue_Push(KQueue_Handle_t self, void* pItem)
     return true;
 }
 
-bool KQueue_Pop(KQueue_Handle_t self, void* pBuffer)
-{
+bool KQueue_Pop(KQueue_Handle_t self, void* pBuffer) {
     assert(self != NULL);
     assert(pBuffer != NULL);
 
@@ -86,22 +82,19 @@ bool KQueue_Pop(KQueue_Handle_t self, void* pBuffer)
     return true;
 }
 
-uint32_t KQueue_ItemsNum(KQueue_Handle_t self)
-{
+uint32_t KQueue_ItemsNum(KQueue_Handle_t self) {
     assert(self != NULL);
 
     return self->ItemsNum;
 }
 
-bool KQueue_IsEmpty(KQueue_Handle_t self)
-{
+bool KQueue_IsEmpty(KQueue_Handle_t self) {
     assert(self != NULL);
 
     return self->ItemsNum == 0;
 }
 
-void KQueue_Destroy(KQueue_Handle_t self)
-{
+void KQueue_Destroy(KQueue_Handle_t self) {
     assert(self != NULL);
     free(self->Begin_p);
     free(self);
