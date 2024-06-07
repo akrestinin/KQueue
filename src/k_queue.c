@@ -3,14 +3,17 @@
 #include <stdlib.h>
 #include <string.h>
 
+/**
+ * @brief KQueue data type structure.
+ */
 typedef struct KQueue {
-    uint32_t Length;
-    size_t   ItemSize;
-    uint32_t ItemsNum;
-    int8_t*  Begin_p;
-    int8_t*  End_p;
-    int8_t*  ReadFrom_p;
-    int8_t*  WriteTo_p;
+    uint32_t Length;   /**< Max amount of items that can be stored in queue. */
+    size_t   ItemSize; /**< Size of one queue item in bytes. */
+    uint32_t ItemsNum; /**< Amount of items currently stored in queue. */
+    int8_t*  Begin_p;  /**< Pointer to items storage beginning. */
+    int8_t*  End_p;    /**< Pointer to items storage ending. */
+    int8_t*  ReadFrom_p; /**< Pointer to read next item data. */
+    int8_t*  WriteTo_p;  /**< Pointer to write next item data. */
 } KQueue_t;
 
 KQueue_Handle_t KQueue_Create(size_t itemSize, uint32_t queueLength) {
@@ -82,7 +85,7 @@ bool KQueue_Pop(KQueue_Handle_t self, void* pBuffer) {
     return true;
 }
 
-uint32_t KQueue_ItemsNum(KQueue_Handle_t self) {
+uint32_t KQueue_GetItemsNum(KQueue_Handle_t self) {
     assert(self != NULL);
 
     return self->ItemsNum;
