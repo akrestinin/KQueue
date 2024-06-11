@@ -45,7 +45,7 @@ int main(void) {
     PrintResult(KQueue_IsEmpty(qHandle));
 
     printf("\tTEST 4: No items ");
-    PrintResult(KQueue_ItemsNum(qHandle) == 0);
+    PrintResult(KQueue_GetItemsNum(qHandle) == 0);
 
     printf(STYLE_SYS("--------------------------------------------------\r\n"));
 
@@ -74,7 +74,7 @@ int main(void) {
     PrintResult(KQueue_IsEmpty(qHandle) == false);
 
     printf("\tTEST 4: Full of items ");
-    PrintResult(KQueue_ItemsNum(qHandle) == QUEUE_LENGTH);
+    PrintResult(KQueue_GetItemsNum(qHandle) == QUEUE_LENGTH);
 
     printf(STYLE_SYS("--------------------------------------------------\r\n"));
 
@@ -102,7 +102,7 @@ int main(void) {
     PrintResult(KQueue_IsEmpty(qHandle));
 
     printf("\tTEST 4: No items ");
-    PrintResult(KQueue_ItemsNum(qHandle) == 0);
+    PrintResult(KQueue_GetItemsNum(qHandle) == 0);
 
     printf(STYLE_SYS("--------------------------------------------------\r\n"));
 
@@ -129,12 +129,12 @@ int main(void) {
             if (num < QUEUE_LENGTH) {
                 memcpy(&itemsArr[num], &itemBuff, sizeof(TestItem_t));
                 num++;
-                if (KQueue_ItemsNum(qHandle) != num) {
+                if (KQueue_GetItemsNum(qHandle) != num) {
                     PrintResult(false);
                     return 1;
                 }
             } else {
-                if (KQueue_ItemsNum(qHandle) != num) {
+                if (KQueue_GetItemsNum(qHandle) != num) {
                     PrintResult(false);
                     return 1;
                 }
@@ -148,7 +148,7 @@ int main(void) {
             }
 
             if (num == 0) {
-                if (KQueue_ItemsNum(qHandle) != 0 ||
+                if (KQueue_GetItemsNum(qHandle) != 0 ||
                     KQueue_IsEmpty(qHandle) != true) {
                     PrintResult(false);
                     return 1;
@@ -162,7 +162,7 @@ int main(void) {
 
                 memset(&itemsArr[num], 0, sizeof(TestItem_t));
                 num--;
-                if (KQueue_ItemsNum(qHandle) != num) {
+                if (KQueue_GetItemsNum(qHandle) != num) {
                     PrintResult(false);
                     return 1;
                 }
