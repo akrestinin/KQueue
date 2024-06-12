@@ -1,6 +1,6 @@
 # ChangeLog
 
-## Release v2.0 (Future)
+## 12.06.2024 Release v2.0
 
 ### 12.06.2024
 
