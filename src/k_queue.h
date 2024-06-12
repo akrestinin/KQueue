@@ -81,54 +81,54 @@ KQueue_Handle_t KQueue_CreateStatic(KQueue_Static_t* pQueueStorage,
  * @brief Push item to the end of queue.
  * @note Items are pushed by copy and not by reference.
  *
- * @param[in] self: KQueue handle.
+ * @param[in] pSelf: KQueue handle.
  * @param[in] pItem: Pointer to an item to be pushed.
  *
  * @retval true: Item pushed successfully.
  * @retval false: Error while pushing an item.
  */
-bool KQueue_Push(KQueue_Handle_t self, void* pItem);
+bool KQueue_Push(KQueue_Handle_t pSelf, void* pItem);
 
 /**
  * @brief Pop item from the beginning of queue.
  * @note Items are copied to pBuffer pointer storage. Storage should be equal to
  * item size defined in queue creation.
  *
- * @param[in] self: KQueue handle.
+ * @param[in] pSelf: KQueue handle.
  * @param[out] pBuffer: Pointer to a storage in which item will be copied.
  *
  * @retval true: Item poped successfully.
  * @retval false: Error while getting an item.
  */
-bool KQueue_Pop(KQueue_Handle_t self, void* pBuffer);
+bool KQueue_Pop(KQueue_Handle_t pSelf, void* pBuffer);
 
 /**
  * @brief Get number of items currently stored in queue.
  *
- * @param[in] self: KQueue handle.
+ * @param[in] pSelf: KQueue handle.
  *
  * @return uint32_t: Amount of items in queue.
  */
-uint32_t KQueue_GetItemsNum(KQueue_Handle_t self);
+uint32_t KQueue_GetItemsNum(KQueue_Handle_t pSelf);
 
 /**
  * @brief Is queue empty.
  *
- * @param[in] self: KQueue handle.
+ * @param[in] pSelf: KQueue handle.
  *
  * @retval true: Queue is empty.
  * @retval false: There are some items in the queue.
  */
-bool KQueue_IsEmpty(KQueue_Handle_t self);
+bool KQueue_IsEmpty(KQueue_Handle_t pSelf);
 
 /**
  * @brief Destroy KQueue object and free allocated memory.
  * @note You should destroy only dynamicly allocated KQueue objects. In other
  * cases consider using KQueue_Flush().
  *
- * @param[in] self: KQueue handle.
+ * @param[in] pSelf: KQueue handle.
  */
-void KQueue_Destroy(KQueue_Handle_t self);
+void KQueue_Destroy(KQueue_Handle_t pSelf);
 
 /** @}*/
 

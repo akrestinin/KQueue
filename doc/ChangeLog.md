@@ -2,6 +2,10 @@
 
 ## Release v2.0 (Future)
 
+### 12.06.2024
+
+* Writed README.md and some renaming
+
 ### 07.06.2024
 
 * Added Changelog.md
