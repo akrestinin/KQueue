@@ -94,7 +94,7 @@ Queue push items:
                 Push item [8]: First: 7059      Second: 17471   Third: 23218    SUCCESS
                 Push item [9]: First: 23263     Second: 28917   Third: 1871     SUCCESS
         TEST 2: Push too much SUCCESS
-        TEST 3: Isn't empty SUCCESS
+        TEST 3: Is not empty SUCCESS
         TEST 4: Full of items SUCCESS
 --------------------------------------------------
 Queue pop items:
