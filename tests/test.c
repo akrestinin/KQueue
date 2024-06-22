@@ -5,7 +5,7 @@
 #include <string.h>
 #include <time.h>
 
-#include "x86intrin.h"
+#define BENCHMARK_TESTS  0
 
 #define TEST_CYCLES      1000000
 #define QUEUE_LENGTH     10
@@ -13,6 +13,10 @@
 #define STYLE_SYS(s)     ("\033[36m" s "\033[0m")
 #define STYLE_SUCCESS(s) ("\033[32m" s "\033[0m")
 #define STYLE_ERROR(s)   ("\033[31m" s "\033[0m")
+
+#if BENCHMARK_TESTS
+#include "x86intrin.h"
+#endif /* BENCHMARK_TESTS */
 
 typedef struct TestItem {
     int32_t First;
@@ -106,7 +110,7 @@ int main(void) {
     PrintResult(KQueue_IsEmpty(qHandle));
 
     printf(STYLE_SYS("--------------------------------------------------\r\n"));
-
+#if BENCHMARK_TESTS
     printf(STYLE_SYS("Benchmark testing:\r\n"));
 
     printf("\tTEST 1: Up-down operations [%d]\r\n", TEST_CYCLES);
@@ -139,7 +143,9 @@ int main(void) {
         cnt = 0;
     }
 
-    printf("\t\tPerfomance: %f clock cycles\r\n", res / TEST_CYCLES);
+    printf("\t\tPerformance: %f clock cycles\r\n", res / TEST_CYCLES);
+    printf(STYLE_SYS("--------------------------------------------------\r\n"));
+#endif /* BENCHMARK_TESTS */
 
     KQueue_Destroy(qHandle);
 

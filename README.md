@@ -45,6 +45,14 @@ Within the build directory, cmake must be configured before any build commands c
 cmake --preset configurePresetName
 ```
 
+Here is the list of available configure presets:
+
+* *Debug* - compile with the `-Og` flag for better debugging;
+* *Release* - compile with the `-O2` flag for stable releases;
+* *ReleaseMaxPerformance* - compilation with `-O2 -DNDEBUG -DEXPOSE_DATATATYPES` flags for maximum performance.
+
+NOTE: the `ReleaseMaxPerformance` preset exposes data types to both compiler and user code. Thus, data encapsulation is broken. Also, all assertions are disabled in this preset. Therefore, if your implementation is not performance sensitive, it is better to use the `Release` configuration preset.
+
 After successful CMake configuration you can build project using:
 
 ```shell
@@ -145,7 +153,3 @@ There are several ways of including **KQueue** in your project:
 If you have found a bug or other error and want to help me with it, feel free to do so! Please don't forget to describe the problem you are solving and the way you solved it. Also keep the same code style as in the whole project, there is a *.clang-format* file to help you with this.
 
 ## Coming soon and knwon issues
-
-* Benchmark testing
-* KQueue_Flush() function for clearing the structure
-* Tests for static object

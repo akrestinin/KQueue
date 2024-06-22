@@ -24,7 +24,15 @@
             "inherits": "default",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_C_FLAGS": "-O2 -DNDEBUG"
+                "CMAKE_C_FLAGS": "-O2"
+            }
+        },
+        {
+            "name": "ReleaseMaxPerformance",
+            "inherits": "default",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_C_FLAGS": "-O2 -DNDEBUG -DEXPOSE_DATATYPES"
             }
         }
     ]
