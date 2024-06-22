@@ -1,8 +1,8 @@
 #include "k_queue.h"
-#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 
+#ifndef EXPOSE_DATATYPES
 /**
  * @brief KQueue data type structure.
  */
@@ -15,6 +15,7 @@ typedef struct KQueue {
     int8_t*  pReadFrom; /**< Pointer to read next item data. */
     int8_t*  pWriteTo;  /**< Pointer to write next item data. */
 } KQueue_t;
+#endif /* EXPOSE_DATATYPES */
 
 KQueue_Handle_t KQueue_Create(size_t itemSize, uint32_t queueLength) {
     KQueue_t* pQueue = malloc(sizeof(KQueue_t));
@@ -85,6 +86,7 @@ bool KQueue_Pop(KQueue_Handle_t pSelf, void* pBuffer) {
     return true;
 }
 
+#ifndef EXPOSE_DATATYPES
 uint32_t KQueue_GetItemsNum(KQueue_Handle_t pSelf) {
     assert(pSelf != NULL);
 
@@ -96,9 +98,19 @@ bool KQueue_IsEmpty(KQueue_Handle_t pSelf) {
 
     return pSelf->ItemsNum == 0;
 }
+#endif /* EXPOSE_DATATYPES */
+
+void KQueue_Flush(KQueue_Handle_t pSelf) {
+    assert(pSelf != NULL);
+
+    pSelf->ItemsNum  = 0;
+    pSelf->pReadFrom = (int8_t*)pSelf->pBegin;
+    pSelf->pWriteTo  = (int8_t*)pSelf->pBegin;
+}
 
 void KQueue_Destroy(KQueue_Handle_t pSelf) {
     assert(pSelf != NULL);
+
     free(pSelf->pBegin);
     free(pSelf);
 }

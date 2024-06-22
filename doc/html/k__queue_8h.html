@@ -27,7 +27,6 @@
   <td id="projectalign">
    <div id="projectname">KQueue
    </div>
-   <div id="projectbrief">Queue data type implementation on C</div>
   </td>
  </tr>
  </tbody>
@@ -99,7 +98,8 @@ $(function(){ initResizable(false); });
 
 <p>This module provides implementation of Queue data structure. Each queue object can be dynamicly or statically allocated. All operations with <a class="el" href="struct_k_queue.html" title="KQueue data type structure.">KQueue</a> objects should be done through handles and public functions calls.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;stdbool.h&gt;</code><br />
+<div class="textblock"><code>#include &lt;assert.h&gt;</code><br />
+<code>#include &lt;stdbool.h&gt;</code><br />
 <code>#include &lt;stddef.h&gt;</code><br />
 <code>#include &lt;stdint.h&gt;</code><br />
 </div>
@@ -130,21 +130,24 @@ Functions</h2></td></tr>
 <tr class="memitem:ga00708f4f5650d9ec52c222c29826e83e" id="r_ga00708f4f5650d9ec52c222c29826e83e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group___k_queue_class.html#gae222b288fa23df3c6181d993c8484e7e">KQueue_Handle_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___k_queue_public_methods.html#ga00708f4f5650d9ec52c222c29826e83e">KQueue_CreateStatic</a> (<a class="el" href="struct_k_queue___static__t.html">KQueue_Static_t</a> *pQueueStorage, int8_t *pItemsStorage, size_t itemSize, uint32_t queueLength)</td></tr>
 <tr class="memdesc:ga00708f4f5650d9ec52c222c29826e83e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create statically allocated <a class="el" href="struct_k_queue.html" title="KQueue data type structure.">KQueue</a> object.  <br /></td></tr>
 <tr class="separator:ga00708f4f5650d9ec52c222c29826e83e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab4ce500e31bcf58c9f4ba6d29ff842c8" id="r_gab4ce500e31bcf58c9f4ba6d29ff842c8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___k_queue_public_methods.html#gab4ce500e31bcf58c9f4ba6d29ff842c8">KQueue_Push</a> (<a class="el" href="group___k_queue_class.html#gae222b288fa23df3c6181d993c8484e7e">KQueue_Handle_t</a> self, void *pItem)</td></tr>
-<tr class="memdesc:gab4ce500e31bcf58c9f4ba6d29ff842c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Push item to the end of queue.  <br /></td></tr>
-<tr class="separator:gab4ce500e31bcf58c9f4ba6d29ff842c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab357d005199180e66bf0399c6a4bf19e" id="r_gab357d005199180e66bf0399c6a4bf19e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___k_queue_public_methods.html#gab357d005199180e66bf0399c6a4bf19e">KQueue_Pop</a> (<a class="el" href="group___k_queue_class.html#gae222b288fa23df3c6181d993c8484e7e">KQueue_Handle_t</a> self, void *pBuffer)</td></tr>
-<tr class="memdesc:gab357d005199180e66bf0399c6a4bf19e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pop item from the beginning of queue.  <br /></td></tr>
-<tr class="separator:gab357d005199180e66bf0399c6a4bf19e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga6ab9624233b0af834f6ac451703f663d" id="r_ga6ab9624233b0af834f6ac451703f663d"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___k_queue_public_methods.html#ga6ab9624233b0af834f6ac451703f663d">KQueue_GetItemsNum</a> (<a class="el" href="group___k_queue_class.html#gae222b288fa23df3c6181d993c8484e7e">KQueue_Handle_t</a> self)</td></tr>
-<tr class="memdesc:ga6ab9624233b0af834f6ac451703f663d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get number of items currently stored in queue.  <br /></td></tr>
-<tr class="separator:ga6ab9624233b0af834f6ac451703f663d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac9d450fccae5adf12af2550dcde573fb" id="r_gac9d450fccae5adf12af2550dcde573fb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___k_queue_public_methods.html#gac9d450fccae5adf12af2550dcde573fb">KQueue_IsEmpty</a> (<a class="el" href="group___k_queue_class.html#gae222b288fa23df3c6181d993c8484e7e">KQueue_Handle_t</a> self)</td></tr>
-<tr class="memdesc:gac9d450fccae5adf12af2550dcde573fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is queue empty.  <br /></td></tr>
-<tr class="separator:gac9d450fccae5adf12af2550dcde573fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab8ce327973576bd5930e370ee38178d2" id="r_gab8ce327973576bd5930e370ee38178d2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___k_queue_public_methods.html#gab8ce327973576bd5930e370ee38178d2">KQueue_Destroy</a> (<a class="el" href="group___k_queue_class.html#gae222b288fa23df3c6181d993c8484e7e">KQueue_Handle_t</a> self)</td></tr>
-<tr class="memdesc:gab8ce327973576bd5930e370ee38178d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy <a class="el" href="struct_k_queue.html" title="KQueue data type structure.">KQueue</a> object and free allocated memory.  <br /></td></tr>
-<tr class="separator:gab8ce327973576bd5930e370ee38178d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac90d21e5ab0615e09fc4d45ca1ea501f" id="r_gac90d21e5ab0615e09fc4d45ca1ea501f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___k_queue_public_methods.html#gac90d21e5ab0615e09fc4d45ca1ea501f">KQueue_Push</a> (<a class="el" href="group___k_queue_class.html#gae222b288fa23df3c6181d993c8484e7e">KQueue_Handle_t</a> pSelf, void *pItem)</td></tr>
+<tr class="memdesc:gac90d21e5ab0615e09fc4d45ca1ea501f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Push item to the end of queue.  <br /></td></tr>
+<tr class="separator:gac90d21e5ab0615e09fc4d45ca1ea501f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga71d5421637e6ad14ff1bb0861e82345b" id="r_ga71d5421637e6ad14ff1bb0861e82345b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___k_queue_public_methods.html#ga71d5421637e6ad14ff1bb0861e82345b">KQueue_Pop</a> (<a class="el" href="group___k_queue_class.html#gae222b288fa23df3c6181d993c8484e7e">KQueue_Handle_t</a> pSelf, void *pBuffer)</td></tr>
+<tr class="memdesc:ga71d5421637e6ad14ff1bb0861e82345b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pop item from the beginning of queue.  <br /></td></tr>
+<tr class="separator:ga71d5421637e6ad14ff1bb0861e82345b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4bb5e1701627bcdf263d96396836e013" id="r_ga4bb5e1701627bcdf263d96396836e013"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___k_queue_public_methods.html#ga4bb5e1701627bcdf263d96396836e013">KQueue_GetItemsNum</a> (<a class="el" href="group___k_queue_class.html#gae222b288fa23df3c6181d993c8484e7e">KQueue_Handle_t</a> pSelf)</td></tr>
+<tr class="memdesc:ga4bb5e1701627bcdf263d96396836e013"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get number of items currently stored in queue.  <br /></td></tr>
+<tr class="separator:ga4bb5e1701627bcdf263d96396836e013"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga87e0f5c135b73955322d085f34fbb16d" id="r_ga87e0f5c135b73955322d085f34fbb16d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___k_queue_public_methods.html#ga87e0f5c135b73955322d085f34fbb16d">KQueue_IsEmpty</a> (<a class="el" href="group___k_queue_class.html#gae222b288fa23df3c6181d993c8484e7e">KQueue_Handle_t</a> pSelf)</td></tr>
+<tr class="memdesc:ga87e0f5c135b73955322d085f34fbb16d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is queue empty.  <br /></td></tr>
+<tr class="separator:ga87e0f5c135b73955322d085f34fbb16d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9020b4920360fed883b4920aa1bfba91" id="r_ga9020b4920360fed883b4920aa1bfba91"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___k_queue_public_methods.html#ga9020b4920360fed883b4920aa1bfba91">KQueue_Flush</a> (<a class="el" href="group___k_queue_class.html#gae222b288fa23df3c6181d993c8484e7e">KQueue_Handle_t</a> pSelf)</td></tr>
+<tr class="memdesc:ga9020b4920360fed883b4920aa1bfba91"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flush all of the queue items.  <br /></td></tr>
+<tr class="separator:ga9020b4920360fed883b4920aa1bfba91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gacfd55be369a833619b3f32b8ee2883ac" id="r_gacfd55be369a833619b3f32b8ee2883ac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___k_queue_public_methods.html#gacfd55be369a833619b3f32b8ee2883ac">KQueue_Destroy</a> (<a class="el" href="group___k_queue_class.html#gae222b288fa23df3c6181d993c8484e7e">KQueue_Handle_t</a> pSelf)</td></tr>
+<tr class="memdesc:gacfd55be369a833619b3f32b8ee2883ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy <a class="el" href="struct_k_queue.html" title="KQueue data type structure.">KQueue</a> object and free allocated memory.  <br /></td></tr>
+<tr class="separator:gacfd55be369a833619b3f32b8ee2883ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This module provides implementation of Queue data structure. Each queue object can be dynamicly or statically allocated. All operations with <a class="el" href="struct_k_queue.html" title="KQueue data type structure.">KQueue</a> objects should be done through handles and public functions calls. </p>
