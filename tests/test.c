@@ -139,7 +139,7 @@ int main(void) {
         cnt = 0;
     }
 
-    printf("\t\tPerfomance: %f\r\n", res / TEST_CYCLES);
+    printf("\t\tPerfomance: %f clock cycles\r\n", res / TEST_CYCLES);
 
     KQueue_Destroy(qHandle);
 
