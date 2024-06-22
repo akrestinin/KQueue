@@ -97,8 +97,17 @@ bool KQueue_IsEmpty(KQueue_Handle_t pSelf) {
     return pSelf->ItemsNum == 0;
 }
 
+void KQueue_Flush(KQueue_Handle_t pSelf) {
+    assert(pSelf != NULL);
+
+    pSelf->ItemsNum  = 0;
+    pSelf->pReadFrom = (int8_t*)pSelf->pBegin;
+    pSelf->pWriteTo  = (int8_t*)pSelf->pBegin;
+}
+
 void KQueue_Destroy(KQueue_Handle_t pSelf) {
     assert(pSelf != NULL);
+
     free(pSelf->pBegin);
     free(pSelf);
 }
