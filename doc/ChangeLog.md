@@ -1,12 +1,14 @@
 # ChangeLog
 
-## 12.06.2024 Release v2.0
+## 22.06.2024 Release v2.1
 
 ## 22.06.2024
 
 * Added KQueue_Flush() function with tests
 * CMake configure preset "ReleaseMaxPerformance"
 * Added flag for exposing data types
+
+## 12.06.2024 Release v2.0
 
 ### 12.06.2024
 
