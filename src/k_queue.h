@@ -122,6 +122,13 @@ uint32_t KQueue_GetItemsNum(KQueue_Handle_t pSelf);
 bool KQueue_IsEmpty(KQueue_Handle_t pSelf);
 
 /**
+ * @brief Flush all of the queue items.
+ *
+ * @param[in] pSelf: KQueue handle.
+ */
+void KQueue_Flush(KQueue_Handle_t pSelf);
+
+/**
  * @brief Destroy KQueue object and free allocated memory.
  * @note You should destroy only dynamicly allocated KQueue objects. In other
  * cases consider using KQueue_Flush().
