@@ -10,6 +10,7 @@
 #ifndef K_QUEUE_H
 #define K_QUEUE_H
 
+#include <assert.h>
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
@@ -19,10 +20,22 @@
  *@{
  */
 
+#ifndef EXPOSE_DATATYPES
 /**
  * @brief Opaque type for KQueue instance.
  */
 typedef struct KQueue KQueue_t;
+#else  /* EXPOSE_DATATYPES */
+typedef struct KQueue {
+    uint32_t Length;
+    size_t   ItemSize;
+    uint32_t ItemsNum;
+    int8_t*  pBegin;
+    int8_t*  pEnd;
+    int8_t*  pReadFrom;
+    int8_t*  pWriteTo;
+} KQueue_t;
+#endif /* EXPOSE_DATATYPES */
 
 /**
  * @brief KQueue instance handle for calling methods.
@@ -102,6 +115,7 @@ bool KQueue_Push(KQueue_Handle_t pSelf, void* pItem);
  */
 bool KQueue_Pop(KQueue_Handle_t pSelf, void* pBuffer);
 
+#ifndef EXPOSE_DATATYPES
 /**
  * @brief Get number of items currently stored in queue.
  *
@@ -120,6 +134,19 @@ uint32_t KQueue_GetItemsNum(KQueue_Handle_t pSelf);
  * @retval false: There are some items in the queue.
  */
 bool KQueue_IsEmpty(KQueue_Handle_t pSelf);
+#else  /* EXPOSE_DATATYPES */
+inline uint32_t KQueue_GetItemsNum(KQueue_Handle_t pSelf) {
+    assert(pSelf != NULL);
+
+    return pSelf->ItemsNum;
+}
+
+inline bool KQueue_IsEmpty(KQueue_Handle_t pSelf) {
+    assert(pSelf != NULL);
+
+    return pSelf->ItemsNum == 0;
+}
+#endif /* EXPOSE_DATATYPES */
 
 /**
  * @brief Flush all of the queue items.

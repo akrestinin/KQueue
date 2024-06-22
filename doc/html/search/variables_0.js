@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['begin_5fp_0',['Begin_p',['../struct_k_queue.html#a945056cd25546e6d7e3d405957012737',1,'KQueue']]]
+  ['itemsize_0',['ItemSize',['../struct_k_queue.html#a320e2fd611bc7d29c08dfe2dec3d64bc',1,'KQueue']]],
+  ['itemsnum_1',['ItemsNum',['../struct_k_queue.html#af090e9def7a7f6430c8ea427195e8df2',1,'KQueue']]]
 ];
