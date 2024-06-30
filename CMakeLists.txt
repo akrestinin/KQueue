@@ -4,9 +4,9 @@ project(k_queue)
 enable_language(C)
 
 if(CMAKE_C_COMPILER_ID STREQUAL "GNU")
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu17")  # Use GNU C11 extensions for GCC
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu17")  # Use GNU C17 extensions for GCC
 else()
-    set(CMAKE_C_STANDARD C17)  # Use C11 standard for other compilers
+    set(CMAKE_C_STANDARD C17)  # Use C17 standard for other compilers
 endif()
 
 set(PROJ_PATH           ${CMAKE_CURRENT_SOURCE_DIR})
