@@ -79,41 +79,48 @@ KQueue_Handle_t KQueue_Create(size_t itemSize, uint32_t queueLength);
  * queue item times queueSize.
  *
  * @param[in] pQueueStorage: Pointer to a static storage for KQueue object.
- * @param[in] pItemsStorage: Pointer to a static storage for queue items.
  * @param[in] itemSize: Size of one queue item in bytes.
  * @param[in] queueLength: Max amount of items that can be stored in queue.
+ * @param[in] pItemsStorage: Pointer to a static storage for queue items.
  *
  * @retval NULL: Error with KQueue object creation.
  * @retval KQueue_Handle_t: Handle of a created KQueue object.
  */
-KQueue_Handle_t KQueue_CreateStatic(KQueue_Static_t* pQueueStorage,
-                                    int8_t* pItemsStorage, size_t itemSize,
-                                    uint32_t queueLength);
+KQueue_Handle_t
+KQueue_CreateStatic(KQueue_Static_t pQueueStorage[static 1],
+                    size_t          itemSize,
+                    uint32_t        queueLength,
+                    int8_t pItemsStorage[static itemSize * queueLength]);
 
 /**
  * @brief Push item to the end of queue.
  * @note Items are pushed by copy and not by reference.
  *
  * @param[in] pSelf: KQueue handle.
+ * @param[in] itemSize: Size of an input item in bytes.
  * @param[in] pItem: Pointer to an item to be pushed.
  *
  * @retval true: Item pushed successfully.
  * @retval false: Error while pushing an item.
  */
-bool KQueue_Push(KQueue_Handle_t pSelf, void* pItem);
-
+bool KQueue_Push(KQueue_Handle_t pSelf,
+                 uint32_t        itemSize,
+                 int8_t          pItem[static itemSize]);
 /**
  * @brief Pop item from the beginning of queue.
  * @note Items are copied to pBuffer pointer storage. Storage should be equal to
  * item size defined in queue creation.
  *
  * @param[in] pSelf: KQueue handle.
+ * @param[in] buffSize: Size of an output buffer in bytes.
  * @param[out] pBuffer: Pointer to a storage in which item will be copied.
  *
  * @retval true: Item poped successfully.
  * @retval false: Error while getting an item.
  */
-bool KQueue_Pop(KQueue_Handle_t pSelf, void* pBuffer);
+bool KQueue_Pop(KQueue_Handle_t pSelf,
+                uint32_t        buffSize,
+                int8_t          pBuffer[static buffSize]);
 
 #ifndef EXPOSE_DATATYPES
 /**

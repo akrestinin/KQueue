@@ -25,8 +25,9 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">KQueue
+   <div id="projectname">KQueue<span id="projectnumber">&#160;2.2</span>
    </div>
+   <div id="projectbrief">A fast and lightweight queue data structure written on C</div>
   </td>
  </tr>
  </tbody>
@@ -127,15 +128,15 @@ Functions</h2></td></tr>
 <tr class="memitem:ga8ce4a6086801c8f1636474837e89b3fd" id="r_ga8ce4a6086801c8f1636474837e89b3fd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group___k_queue_class.html#gae222b288fa23df3c6181d993c8484e7e">KQueue_Handle_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___k_queue_public_methods.html#ga8ce4a6086801c8f1636474837e89b3fd">KQueue_Create</a> (size_t itemSize, uint32_t queueLength)</td></tr>
 <tr class="memdesc:ga8ce4a6086801c8f1636474837e89b3fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create dynamicly allocated <a class="el" href="struct_k_queue.html" title="KQueue data type structure.">KQueue</a> object.  <br /></td></tr>
 <tr class="separator:ga8ce4a6086801c8f1636474837e89b3fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga00708f4f5650d9ec52c222c29826e83e" id="r_ga00708f4f5650d9ec52c222c29826e83e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group___k_queue_class.html#gae222b288fa23df3c6181d993c8484e7e">KQueue_Handle_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___k_queue_public_methods.html#ga00708f4f5650d9ec52c222c29826e83e">KQueue_CreateStatic</a> (<a class="el" href="struct_k_queue___static__t.html">KQueue_Static_t</a> *pQueueStorage, int8_t *pItemsStorage, size_t itemSize, uint32_t queueLength)</td></tr>
-<tr class="memdesc:ga00708f4f5650d9ec52c222c29826e83e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create statically allocated <a class="el" href="struct_k_queue.html" title="KQueue data type structure.">KQueue</a> object.  <br /></td></tr>
-<tr class="separator:ga00708f4f5650d9ec52c222c29826e83e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac90d21e5ab0615e09fc4d45ca1ea501f" id="r_gac90d21e5ab0615e09fc4d45ca1ea501f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___k_queue_public_methods.html#gac90d21e5ab0615e09fc4d45ca1ea501f">KQueue_Push</a> (<a class="el" href="group___k_queue_class.html#gae222b288fa23df3c6181d993c8484e7e">KQueue_Handle_t</a> pSelf, void *pItem)</td></tr>
-<tr class="memdesc:gac90d21e5ab0615e09fc4d45ca1ea501f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Push item to the end of queue.  <br /></td></tr>
-<tr class="separator:gac90d21e5ab0615e09fc4d45ca1ea501f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga71d5421637e6ad14ff1bb0861e82345b" id="r_ga71d5421637e6ad14ff1bb0861e82345b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___k_queue_public_methods.html#ga71d5421637e6ad14ff1bb0861e82345b">KQueue_Pop</a> (<a class="el" href="group___k_queue_class.html#gae222b288fa23df3c6181d993c8484e7e">KQueue_Handle_t</a> pSelf, void *pBuffer)</td></tr>
-<tr class="memdesc:ga71d5421637e6ad14ff1bb0861e82345b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pop item from the beginning of queue.  <br /></td></tr>
-<tr class="separator:ga71d5421637e6ad14ff1bb0861e82345b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga81953bbfa11c4f48a7e460971c8e6531" id="r_ga81953bbfa11c4f48a7e460971c8e6531"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group___k_queue_class.html#gae222b288fa23df3c6181d993c8484e7e">KQueue_Handle_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___k_queue_public_methods.html#ga81953bbfa11c4f48a7e460971c8e6531">KQueue_CreateStatic</a> (<a class="el" href="struct_k_queue___static__t.html">KQueue_Static_t</a> pQueueStorage[static 1], size_t itemSize, uint32_t queueLength, int8_t pItemsStorage[static itemSize *queueLength])</td></tr>
+<tr class="memdesc:ga81953bbfa11c4f48a7e460971c8e6531"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create statically allocated <a class="el" href="struct_k_queue.html" title="KQueue data type structure.">KQueue</a> object.  <br /></td></tr>
+<tr class="separator:ga81953bbfa11c4f48a7e460971c8e6531"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab0551a7e3f3b529deaf2efddfe81186f" id="r_gab0551a7e3f3b529deaf2efddfe81186f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___k_queue_public_methods.html#gab0551a7e3f3b529deaf2efddfe81186f">KQueue_Push</a> (<a class="el" href="group___k_queue_class.html#gae222b288fa23df3c6181d993c8484e7e">KQueue_Handle_t</a> pSelf, uint32_t itemSize, int8_t pItem[static itemSize])</td></tr>
+<tr class="memdesc:gab0551a7e3f3b529deaf2efddfe81186f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Push item to the end of queue.  <br /></td></tr>
+<tr class="separator:gab0551a7e3f3b529deaf2efddfe81186f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5108eac4832ff99ca041148003807963" id="r_ga5108eac4832ff99ca041148003807963"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___k_queue_public_methods.html#ga5108eac4832ff99ca041148003807963">KQueue_Pop</a> (<a class="el" href="group___k_queue_class.html#gae222b288fa23df3c6181d993c8484e7e">KQueue_Handle_t</a> pSelf, uint32_t buffSize, int8_t pBuffer[static buffSize])</td></tr>
+<tr class="memdesc:ga5108eac4832ff99ca041148003807963"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pop item from the beginning of queue.  <br /></td></tr>
+<tr class="separator:ga5108eac4832ff99ca041148003807963"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga4bb5e1701627bcdf263d96396836e013" id="r_ga4bb5e1701627bcdf263d96396836e013"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___k_queue_public_methods.html#ga4bb5e1701627bcdf263d96396836e013">KQueue_GetItemsNum</a> (<a class="el" href="group___k_queue_class.html#gae222b288fa23df3c6181d993c8484e7e">KQueue_Handle_t</a> pSelf)</td></tr>
 <tr class="memdesc:ga4bb5e1701627bcdf263d96396836e013"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get number of items currently stored in queue.  <br /></td></tr>
 <tr class="separator:ga4bb5e1701627bcdf263d96396836e013"><td class="memSeparator" colspan="2">&#160;</td></tr>

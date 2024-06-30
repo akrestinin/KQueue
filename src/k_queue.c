@@ -1,6 +1,5 @@
 #include "k_queue.h"
-#include <stdlib.h>
-#include <string.h>
+#include "k_queue_cfg.h"
 
 #ifndef EXPOSE_DATATYPES
 /**
@@ -18,50 +17,58 @@ typedef struct KQueue {
 #endif /* EXPOSE_DATATYPES */
 
 KQueue_Handle_t KQueue_Create(size_t itemSize, uint32_t queueLength) {
-    KQueue_t* pQueue = malloc(sizeof(KQueue_t));
-    void*     pArr   = malloc(itemSize * queueLength);
-    if (pQueue == NULL || pArr == NULL)
+    assert(itemSize > 0);
+    assert(queueLength > 0);
+
+    KQueue_t* pQueue = K_QUEUE_MALLOC(sizeof(KQueue_t));
+    if (!pQueue)
         return NULL;
 
-    pQueue->Length    = queueLength;
-    pQueue->ItemSize  = itemSize;
-    pQueue->ItemsNum  = 0;
-    pQueue->pBegin    = (int8_t*)pArr;
-    pQueue->pEnd      = (int8_t*)pArr + (itemSize * queueLength);
-    pQueue->pReadFrom = (int8_t*)pArr;
-    pQueue->pWriteTo  = (int8_t*)pArr;
+    void* pArr = K_QUEUE_MALLOC(itemSize * queueLength);
+    if (!pArr) {
+        K_QUEUE_FREE(pQueue);
+        return NULL;
+    }
 
+    *pQueue = (KQueue_t){.Length    = queueLength,
+                         .ItemSize  = itemSize,
+                         .ItemsNum  = 0,
+                         .pBegin    = (int8_t*)pArr,
+                         .pEnd      = (int8_t*)pArr + (itemSize * queueLength),
+                         .pReadFrom = (int8_t*)pArr,
+                         .pWriteTo  = (int8_t*)pArr};
     return pQueue;
 }
 
-KQueue_Handle_t KQueue_CreateStatic(KQueue_Static_t* pQueueStorage,
-                                    int8_t* pItemsStorage, size_t itemSize,
-                                    uint32_t queueLength) {
-    assert(pQueueStorage != NULL);
-    assert(pItemsStorage != NULL);
-    assert(sizeof(KQueue_t) == sizeof(KQueue_Static_t));
+KQueue_Handle_t
+KQueue_CreateStatic(KQueue_Static_t pQueueStorage[static 1],
+                    size_t          itemSize,
+                    uint32_t        queueLength,
+                    int8_t pItemsStorage[static itemSize * queueLength]) {
+    _STATIC_ASSERT(sizeof(KQueue_t) == sizeof(KQueue_Static_t));
 
-    KQueue_t* pNewQueue = (KQueue_t*)pQueueStorage;
-    memset(pItemsStorage, 0, itemSize * queueLength);
-    pNewQueue->Length    = queueLength;
-    pNewQueue->ItemSize  = itemSize;
-    pNewQueue->ItemsNum  = 0;
-    pNewQueue->pBegin    = pItemsStorage;
-    pNewQueue->pEnd      = pItemsStorage + (itemSize * queueLength);
-    pNewQueue->pReadFrom = pItemsStorage;
-    pNewQueue->pWriteTo  = pItemsStorage;
-
-    return (KQueue_Handle_t)pNewQueue;
+    *(KQueue_t*)pQueueStorage =
+        (KQueue_t){.Length   = queueLength,
+                   .ItemSize = itemSize,
+                   .ItemsNum = 0,
+                   .pBegin   = (int8_t*)pItemsStorage,
+                   .pEnd = (int8_t*)pItemsStorage + (itemSize * queueLength),
+                   .pReadFrom = (int8_t*)pItemsStorage,
+                   .pWriteTo  = (int8_t*)pItemsStorage};
+    K_QUEUE_MEMSET(pItemsStorage, 0, itemSize * queueLength);
+    return (KQueue_Handle_t)pQueueStorage;
 }
 
-bool KQueue_Push(KQueue_Handle_t pSelf, void* pItem) {
+bool KQueue_Push(KQueue_Handle_t pSelf,
+                 uint32_t        itemSize,
+                 int8_t          pItem[static itemSize]) {
     assert(pSelf != NULL);
-    assert(pItem != NULL);
+    assert(pSelf->ItemSize == itemSize);
 
     if (pSelf->ItemsNum == pSelf->Length)
         return false;
 
-    memcpy(pSelf->pWriteTo, pItem, pSelf->ItemSize);
+    K_QUEUE_MEMCPY(pSelf->pWriteTo, pItem, pSelf->ItemSize);
     pSelf->ItemsNum++;
     pSelf->pWriteTo += pSelf->ItemSize;
     if (pSelf->pWriteTo == pSelf->pEnd)
@@ -70,14 +77,16 @@ bool KQueue_Push(KQueue_Handle_t pSelf, void* pItem) {
     return true;
 }
 
-bool KQueue_Pop(KQueue_Handle_t pSelf, void* pBuffer) {
+bool KQueue_Pop(KQueue_Handle_t pSelf,
+                uint32_t        buffSize,
+                int8_t          pBuffer[static buffSize]) {
     assert(pSelf != NULL);
-    assert(pBuffer != NULL);
+    assert(pSelf->ItemSize == buffSize);
 
     if (pSelf->ItemsNum == 0)
         return false;
 
-    memcpy(pBuffer, pSelf->pReadFrom, pSelf->ItemSize);
+    K_QUEUE_MEMCPY(pBuffer, pSelf->pReadFrom, pSelf->ItemSize);
     pSelf->ItemsNum--;
     pSelf->pReadFrom += pSelf->ItemSize;
     if (pSelf->pReadFrom == pSelf->pEnd)
@@ -111,6 +120,6 @@ void KQueue_Flush(KQueue_Handle_t pSelf) {
 void KQueue_Destroy(KQueue_Handle_t pSelf) {
     assert(pSelf != NULL);
 
-    free(pSelf->pBegin);
-    free(pSelf);
+    K_QUEUE_FREE(pSelf->pBegin);
+    K_QUEUE_FREE(pSelf);
 }
