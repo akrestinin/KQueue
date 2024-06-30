@@ -30,6 +30,8 @@ ninja --version
 
 If at any point you get an error, consider installing the missing software component.
 
+Before any build procedure you need to create `k_queue_cfg.h` file. If you are not using you own `malloc`, `free`, `memset` or `memcpy` functions everything you need to do is to copy `k_queue_cfg_def.h` and rename it to `k_queue_cfg.h`.
+
 ### Using CLI
 
 1) From the root project directory create build directory:

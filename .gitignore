@@ -55,3 +55,4 @@ dkms.conf
 build
 *.env
 *.cmake
+k_queue_cfg.h

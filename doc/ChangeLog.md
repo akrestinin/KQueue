@@ -1,5 +1,14 @@
 # ChangeLog
 
+## 30.06.2024 Release v2.2
+
+## 30.06.2024
+
+* Added C17 standart support
+* Added static object testing
+* Added pinning to core for tests execution
+* Added `k_queue_cfg_def.h` configuration file
+
 ## 22.06.2024 Release v2.1
 
 ## 22.06.2024
