@@ -20,23 +20,21 @@ KQueue_Handle_t KQueue_Create(size_t itemSize, uint32_t queueLength) {
     assert(itemSize > 0);
     assert(queueLength > 0);
 
-    KQueue_t* pQueue = K_QUEUE_MALLOC(sizeof(KQueue_t));
-    if (!pQueue)
+    int8_t* pQueueStorage =
+        K_QUEUE_MALLOC(sizeof(KQueue_t) + (itemSize * queueLength));
+    if (!pQueueStorage)
         return NULL;
 
-    void* pArr = K_QUEUE_MALLOC(itemSize * queueLength);
-    if (!pArr) {
-        K_QUEUE_FREE(pQueue);
-        return NULL;
-    }
-
-    *pQueue = (KQueue_t){.Length    = queueLength,
-                         .ItemSize  = itemSize,
-                         .ItemsNum  = 0,
-                         .pBegin    = (int8_t*)pArr,
-                         .pEnd      = (int8_t*)pArr + (itemSize * queueLength),
-                         .pReadFrom = (int8_t*)pArr,
-                         .pWriteTo  = (int8_t*)pArr};
+    KQueue_t* pQueue = (KQueue_t*)pQueueStorage;
+    int8_t*   pArr   = pQueueStorage + sizeof(KQueue_t);
+    *pQueue          = (KQueue_t){.Length    = queueLength,
+                                  .ItemSize  = itemSize,
+                                  .ItemsNum  = 0,
+                                  .pBegin    = pArr,
+                                  .pEnd      = pArr + (itemSize * queueLength),
+                                  .pReadFrom = pArr,
+                                  .pWriteTo  = pArr};
+    K_QUEUE_MEMSET(pArr, 0, itemSize * queueLength);
     return pQueue;
 }
 
@@ -48,13 +46,13 @@ KQueue_CreateStatic(KQueue_Static_t pQueueStorage[static 1],
     _STATIC_ASSERT(sizeof(KQueue_t) == sizeof(KQueue_Static_t));
 
     *(KQueue_t*)pQueueStorage =
-        (KQueue_t){.Length   = queueLength,
-                   .ItemSize = itemSize,
-                   .ItemsNum = 0,
-                   .pBegin   = (int8_t*)pItemsStorage,
-                   .pEnd = (int8_t*)pItemsStorage + (itemSize * queueLength),
-                   .pReadFrom = (int8_t*)pItemsStorage,
-                   .pWriteTo  = (int8_t*)pItemsStorage};
+        (KQueue_t){.Length    = queueLength,
+                   .ItemSize  = itemSize,
+                   .ItemsNum  = 0,
+                   .pBegin    = pItemsStorage,
+                   .pEnd      = pItemsStorage + (itemSize * queueLength),
+                   .pReadFrom = pItemsStorage,
+                   .pWriteTo  = pItemsStorage};
     K_QUEUE_MEMSET(pItemsStorage, 0, itemSize * queueLength);
     return (KQueue_Handle_t)pQueueStorage;
 }
@@ -120,6 +118,5 @@ void KQueue_Flush(KQueue_Handle_t pSelf) {
 void KQueue_Destroy(KQueue_Handle_t pSelf) {
     assert(pSelf != NULL);
 
-    K_QUEUE_FREE(pSelf->pBegin);
     K_QUEUE_FREE(pSelf);
 }

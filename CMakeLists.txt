@@ -11,8 +11,6 @@ endif()
 
 set(PROJ_PATH           ${CMAKE_CURRENT_SOURCE_DIR})
 set(EXECUTABLE          ${CMAKE_PROJECT_NAME})
-set(PROJ_PATH           ${CMAKE_CURRENT_SOURCE_DIR})
-set(EXECUTABLE          ${CMAKE_PROJECT_NAME})
 
 #
 # List of source files to compile
