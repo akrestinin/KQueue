@@ -16,6 +16,7 @@ typedef struct KQueue {
 #endif /* EXPOSE_DATATYPES */
 
 KQueue_Handle_t KQueue_Create(size_t itemSize, uint32_t queueLength) {
+    _STATIC_ASSERT(sizeof(KQueue_t) == sizeof(KQueue_Static_t));
     K_QUEUE_ASSERT(itemSize > 0);
     K_QUEUE_ASSERT(queueLength > 0);
 
