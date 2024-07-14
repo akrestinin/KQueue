@@ -1,5 +1,4 @@
 #include "k_queue.h"
-#include "k_queue_cfg.h"
 
 #ifndef EXPOSE_DATATYPES
 /**
@@ -17,8 +16,8 @@ typedef struct KQueue {
 #endif /* EXPOSE_DATATYPES */
 
 KQueue_Handle_t KQueue_Create(size_t itemSize, uint32_t queueLength) {
-    assert(itemSize > 0);
-    assert(queueLength > 0);
+    K_QUEUE_ASSERT(itemSize > 0);
+    K_QUEUE_ASSERT(queueLength > 0);
 
     int8_t* pQueueStorage =
         K_QUEUE_MALLOC(sizeof(KQueue_t) + (itemSize * queueLength));
@@ -60,8 +59,8 @@ KQueue_CreateStatic(KQueue_Static_t pQueueStorage[static 1],
 bool KQueue_Push(KQueue_Handle_t pSelf,
                  uint32_t        itemSize,
                  int8_t          pItem[static itemSize]) {
-    assert(pSelf != NULL);
-    assert(pSelf->ItemSize == itemSize);
+    K_QUEUE_ASSERT(pSelf != NULL);
+    K_QUEUE_ASSERT(pSelf->ItemSize == itemSize);
 
     if (pSelf->ItemsNum == pSelf->Length)
         return false;
@@ -78,8 +77,8 @@ bool KQueue_Push(KQueue_Handle_t pSelf,
 bool KQueue_Pop(KQueue_Handle_t pSelf,
                 uint32_t        buffSize,
                 int8_t          pBuffer[static buffSize]) {
-    assert(pSelf != NULL);
-    assert(pSelf->ItemSize == buffSize);
+    K_QUEUE_ASSERT(pSelf != NULL);
+    K_QUEUE_ASSERT(pSelf->ItemSize == buffSize);
 
     if (pSelf->ItemsNum == 0)
         return false;
@@ -95,28 +94,28 @@ bool KQueue_Pop(KQueue_Handle_t pSelf,
 
 #ifndef EXPOSE_DATATYPES
 uint32_t KQueue_GetItemsNum(KQueue_Handle_t pSelf) {
-    assert(pSelf != NULL);
+    K_QUEUE_ASSERT(pSelf != NULL);
 
     return pSelf->ItemsNum;
 }
 
 bool KQueue_IsEmpty(KQueue_Handle_t pSelf) {
-    assert(pSelf != NULL);
+    K_QUEUE_ASSERT(pSelf != NULL);
 
     return pSelf->ItemsNum == 0;
 }
 #endif /* EXPOSE_DATATYPES */
 
 void KQueue_Flush(KQueue_Handle_t pSelf) {
-    assert(pSelf != NULL);
+    K_QUEUE_ASSERT(pSelf != NULL);
 
     pSelf->ItemsNum  = 0;
-    pSelf->pReadFrom = (int8_t*)pSelf->pBegin;
-    pSelf->pWriteTo  = (int8_t*)pSelf->pBegin;
+    pSelf->pReadFrom = pSelf->pBegin;
+    pSelf->pWriteTo  = pSelf->pBegin;
 }
 
 void KQueue_Destroy(KQueue_Handle_t pSelf) {
-    assert(pSelf != NULL);
+    K_QUEUE_ASSERT(pSelf != NULL);
 
     K_QUEUE_FREE(pSelf);
 }

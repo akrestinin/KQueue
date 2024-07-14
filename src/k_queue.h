@@ -10,7 +10,7 @@
 #ifndef K_QUEUE_H
 #define K_QUEUE_H
 
-#include <assert.h>
+#include "k_queue_cfg.h"
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
@@ -143,13 +143,13 @@ uint32_t KQueue_GetItemsNum(KQueue_Handle_t pSelf);
 bool KQueue_IsEmpty(KQueue_Handle_t pSelf);
 #else  /* EXPOSE_DATATYPES */
 inline uint32_t KQueue_GetItemsNum(KQueue_Handle_t pSelf) {
-    assert(pSelf != NULL);
+    K_QUEUE_ASSERT(pSelf != NULL);
 
     return pSelf->ItemsNum;
 }
 
 inline bool KQueue_IsEmpty(KQueue_Handle_t pSelf) {
-    assert(pSelf != NULL);
+    K_QUEUE_ASSERT(pSelf != NULL);
 
     return pSelf->ItemsNum == 0;
 }

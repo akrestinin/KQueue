@@ -1,8 +1,17 @@
 #ifndef K_QUEUE_CFG_H
 #define K_QUEUE_CFG_H
 
+#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
+
+#ifndef K_QUEUE_ASSERT_CUSTOM
+#ifndef K_QUEUE_ASSERT
+#define K_QUEUE_ASSERT(ex) assert((ex))
+#endif /* K_QUEUE_K_QUEUE_ASSERT */
+#else
+/* User custom code here */
+#endif /* K_QUEUE_K_QUEUE_ASSERT_CUSTOM */
 
 #ifndef K_QUEUE_MALLOC_CUSTOM
 #ifndef K_QUEUE_MALLOC
