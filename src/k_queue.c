@@ -20,8 +20,7 @@ KQueue_Handle_t KQueue_Create(size_t itemSize, uint32_t queueLength) {
     K_QUEUE_ASSERT(itemSize > 0);
     K_QUEUE_ASSERT(queueLength > 0);
 
-    int8_t* pQueueStorage =
-        K_QUEUE_MALLOC(sizeof(KQueue_t) + (itemSize * queueLength));
+    int8_t* pQueueStorage = K_QUEUE_MALLOC(sizeof(KQueue_t) + (itemSize * queueLength));
     if (!pQueueStorage)
         return NULL;
 
@@ -38,28 +37,24 @@ KQueue_Handle_t KQueue_Create(size_t itemSize, uint32_t queueLength) {
     return pQueue;
 }
 
-KQueue_Handle_t
-KQueue_CreateStatic(KQueue_Static_t pQueueStorage[static 1],
-                    size_t          itemSize,
-                    uint32_t        queueLength,
-                    int8_t pItemsStorage[static itemSize * queueLength]) {
+KQueue_Handle_t KQueue_CreateStatic(KQueue_Static_t pQueueStorage[static 1],
+                                    size_t          itemSize,
+                                    uint32_t        queueLength,
+                                    int8_t          pItemsStorage[static itemSize * queueLength]) {
     _STATIC_ASSERT(sizeof(KQueue_t) == sizeof(KQueue_Static_t));
 
-    *(KQueue_t*)pQueueStorage =
-        (KQueue_t){.Length    = queueLength,
-                   .ItemSize  = itemSize,
-                   .ItemsNum  = 0,
-                   .pBegin    = pItemsStorage,
-                   .pEnd      = pItemsStorage + (itemSize * queueLength),
-                   .pReadFrom = pItemsStorage,
-                   .pWriteTo  = pItemsStorage};
+    *(KQueue_t*)pQueueStorage = (KQueue_t){.Length    = queueLength,
+                                           .ItemSize  = itemSize,
+                                           .ItemsNum  = 0,
+                                           .pBegin    = pItemsStorage,
+                                           .pEnd      = pItemsStorage + (itemSize * queueLength),
+                                           .pReadFrom = pItemsStorage,
+                                           .pWriteTo  = pItemsStorage};
     K_QUEUE_MEMSET(pItemsStorage, 0, itemSize * queueLength);
     return (KQueue_Handle_t)pQueueStorage;
 }
 
-bool KQueue_Push(KQueue_Handle_t pSelf,
-                 uint32_t        itemSize,
-                 int8_t          pItem[static itemSize]) {
+bool KQueue_Push(KQueue_Handle_t pSelf, uint32_t itemSize, int8_t pItem[static itemSize]) {
     K_QUEUE_ASSERT(pSelf != NULL);
     K_QUEUE_ASSERT(pSelf->ItemSize == itemSize);
 
@@ -75,9 +70,7 @@ bool KQueue_Push(KQueue_Handle_t pSelf,
     return true;
 }
 
-bool KQueue_Pop(KQueue_Handle_t pSelf,
-                uint32_t        buffSize,
-                int8_t          pBuffer[static buffSize]) {
+bool KQueue_Pop(KQueue_Handle_t pSelf, uint32_t buffSize, int8_t pBuffer[static buffSize]) {
     K_QUEUE_ASSERT(pSelf != NULL);
     K_QUEUE_ASSERT(pSelf->ItemSize == buffSize);
 

@@ -54,8 +54,7 @@ static void PinToCore(int core_id) {
     CPU_SET(core_id, &cpuset);
 
     pthread_t current_thread = pthread_self();
-    int       result =
-        pthread_setaffinity_np(current_thread, sizeof(cpu_set_t), &cpuset);
+    int       result         = pthread_setaffinity_np(current_thread, sizeof(cpu_set_t), &cpuset);
     PrintResult(result != 0 ? false : true);
 #endif
 }
@@ -65,10 +64,8 @@ static KQueue_Handle_t Test_StaticCreation(void) {
     static TestItem_t      itemsStorage[QUEUE_LENGTH];
 
     printf("\tTEST 1: Create ");
-    KQueue_Handle_t hQueue = KQueue_CreateStatic(&queueStorage,
-                                                 sizeof(TestItem_t),
-                                                 QUEUE_LENGTH,
-                                                 (int8_t*)&itemsStorage[0]);
+    KQueue_Handle_t hQueue =
+        KQueue_CreateStatic(&queueStorage, sizeof(TestItem_t), QUEUE_LENGTH, (int8_t*)&itemsStorage[0]);
     PrintResult(hQueue != NULL);
 
     printf("\tTEST 2: Is empty ");
@@ -105,18 +102,13 @@ static void Test_Unit(KQueue_Handle_t hQueue) {
         TestItem_t item = {.First = rand(), .Second = rand(), .Third = rand()};
 
         memcpy(&itemsArr[i], &item, sizeof(TestItem_t));
-        printf("\t\tPush item [%d]: First: %i\tSecond: %d\tThird: %u\t",
-               i,
-               item.First,
-               item.Second,
-               item.Third);
+        printf("\t\tPush item [%d]: First: %i\tSecond: %d\tThird: %u\t", i, item.First, item.Second, item.Third);
         PrintResult(KQueue_Push(hQueue, sizeof(TestItem_t), (int8_t*)&item));
     }
 
     printf("\tTEST 2: Push too much ");
     TestItem_t badItem = {.First = rand(), .Second = rand(), .Third = rand()};
-    PrintResult(KQueue_Push(hQueue, sizeof(TestItem_t), (int8_t*)&badItem) ==
-                false);
+    PrintResult(KQueue_Push(hQueue, sizeof(TestItem_t), (int8_t*)&badItem) == false);
 
     printf("\tTEST 3: Isn't empty ");
     PrintResult(KQueue_IsEmpty(hQueue) == false);
@@ -129,19 +121,14 @@ static void Test_Unit(KQueue_Handle_t hQueue) {
         TestItem_t item;
         memset(&item, 0, sizeof(TestItem_t));
         bool result = KQueue_Pop(hQueue, sizeof(TestItem_t), (int8_t*)&item);
-        printf("\t\tPoped item [%d]: First: %i\tSecond: %d\tThird: %u\t",
-               i,
-               item.First,
-               item.Second,
-               item.Third);
+        printf("\t\tPoped item [%d]: First: %i\tSecond: %d\tThird: %u\t", i, item.First, item.Second, item.Third);
         PrintResult(result);
         printf("\t\tIs equal: ");
         PrintResult(memcmp(&itemsArr[i], &item, sizeof(TestItem_t)) == 0);
     }
 
     printf("\tTEST 6: Pop too much ");
-    PrintResult(KQueue_Pop(hQueue, sizeof(TestItem_t), (int8_t*)&badItem) ==
-                false);
+    PrintResult(KQueue_Pop(hQueue, sizeof(TestItem_t), (int8_t*)&badItem) == false);
 
     printf("\tTEST 7: Is empty ");
     PrintResult(KQueue_IsEmpty(hQueue));

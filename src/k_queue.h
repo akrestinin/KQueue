@@ -86,11 +86,10 @@ KQueue_Handle_t KQueue_Create(size_t itemSize, uint32_t queueLength);
  * @retval NULL: Error with KQueue object creation.
  * @retval KQueue_Handle_t: Handle of a created KQueue object.
  */
-KQueue_Handle_t
-KQueue_CreateStatic(KQueue_Static_t pQueueStorage[static 1],
-                    size_t          itemSize,
-                    uint32_t        queueLength,
-                    int8_t pItemsStorage[static itemSize * queueLength]);
+KQueue_Handle_t KQueue_CreateStatic(KQueue_Static_t pQueueStorage[static 1],
+                                    size_t          itemSize,
+                                    uint32_t        queueLength,
+                                    int8_t          pItemsStorage[static itemSize * queueLength]);
 
 /**
  * @brief Push item to the end of queue.
@@ -103,9 +102,7 @@ KQueue_CreateStatic(KQueue_Static_t pQueueStorage[static 1],
  * @retval true: Item pushed successfully.
  * @retval false: Error while pushing an item.
  */
-bool KQueue_Push(KQueue_Handle_t pSelf,
-                 uint32_t        itemSize,
-                 int8_t          pItem[static itemSize]);
+bool KQueue_Push(KQueue_Handle_t pSelf, uint32_t itemSize, int8_t pItem[static itemSize]);
 /**
  * @brief Pop item from the beginning of queue.
  * @note Items are copied to pBuffer pointer storage. Storage should be equal to
@@ -118,9 +115,7 @@ bool KQueue_Push(KQueue_Handle_t pSelf,
  * @retval true: Item poped successfully.
  * @retval false: Error while getting an item.
  */
-bool KQueue_Pop(KQueue_Handle_t pSelf,
-                uint32_t        buffSize,
-                int8_t          pBuffer[static buffSize]);
+bool KQueue_Pop(KQueue_Handle_t pSelf, uint32_t buffSize, int8_t pBuffer[static buffSize]);
 
 #ifndef EXPOSE_DATATYPES
 /**
